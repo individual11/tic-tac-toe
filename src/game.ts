@@ -15,10 +15,10 @@ export class Game {
     moveLog: any[]; // You can replace `any` with a specific type for a move
     moveTimes: number[];
 
-    constructor(player1: Player, player2: Player, initialPlayer: number, delay = 1000) {
+    constructor(player1: Player, player2: Player, delay = 1000) {
         this.board = Array(3).fill(null).map(() => Array(3).fill(' '));
         this.players = [player1, player2];
-        this.currentPlayerIndex = initialPlayer;
+        this.currentPlayerIndex = 0;
         this.delay = delay;
         this.moveLog = [];
         this.moveTimes = [];
@@ -50,7 +50,7 @@ export class Game {
 			const currentPlayer = this.players[this.currentPlayerIndex];
 			const xPositions = this.getBoardPositions('X');
 			const oPositions = this.getBoardPositions('O');
-	
+			console.log(currentPlayer)
 			const move = await currentPlayer.makeMove(xPositions, oPositions, currentPlayer.symbol);
 	
 			if (this.isValidMove(move)) {
