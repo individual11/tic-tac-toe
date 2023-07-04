@@ -7,11 +7,11 @@ import { Tournament } from './tournament';
 async function main() {
   const playerFunctionPaths = loadPlayerFunctions();
   // Create a Player instance for each player function
-	const players = Object.entries(playerFunctionPaths).map(([name, path]) => new Player(name, path));
+	const players = Object.entries(playerFunctionPaths).map(([name, path], i) => new Player(i.toString(), name, 'X', path)); // we update the symbol later after players are chosen
 
 
   const playerChoices = players.map((player) => {
-		return {name: player.symbol, value: player };
+		return {name: player.name, value: player };
 	});
 
   const { player1 } = await inquirer.prompt<{ player1: Player }>({
@@ -56,6 +56,10 @@ async function main() {
 	const decideFirstPlayer = (results: any[], currentGameNumber: number) => {
 		return 0;
 	};
+
+	// update the symbol
+	player1.symbol = 'X';
+	player2.symbol = 'O';
 	// Create the tournament with the provided options and start it
 	const tournament = new Tournament(answers.tournamentType, [player1, player2], answers.games, answers.delay, decideFirstPlayer);
 	tournament.start();

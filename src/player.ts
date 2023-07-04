@@ -6,22 +6,20 @@ import { BoardPosition, PlayerMoveFunction } from './types';
 export interface Player {
 	name: string;
 	symbol: string; // 'X' or 'O'
-	makeMove: PlayerMoveFunction
+	makeMove: PlayerMoveFunction;
+	id: string;
 }
-
-export interface GameState {
-	xPositions: [number];
-	oPositions: [number];
-	currentPlayer: string;
-}
-
 
 export class Player {
   symbol: string;
+	name: string;
+	id: string;
   makeMove!: PlayerMoveFunction;
 
-  constructor(symbol: string, playerFunctionPath: string) {
-    this.symbol = symbol;
+  constructor(id: string, name: string, symbol: string, playerFunctionPath: string) {
+    this.name = name;
+		this.symbol = symbol;
+		this.id = id;
     import(playerFunctionPath).then((module) => {
       this.makeMove = module.default;
     });
@@ -41,10 +39,5 @@ export function loadPlayerFunctions(): { [name: string]: string } {
 			players[file.replace('.js', '')] = playerPath;
 	}
 
-	// console.log(players, typeof players, Object.entries(players))
-	// Object.entries(players).map(entry => {
-	// 	const [name, value] = entry;
-	// 	console.log(name);
-	// })
 	return players;
 }
